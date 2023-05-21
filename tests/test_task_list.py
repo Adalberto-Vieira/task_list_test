@@ -2,12 +2,13 @@ from unittest import mock
 from unittest.mock import MagicMock
 import pytest
 from taskList.ext.site.task_list import EmptyTitleException
+import datetime
 
 def test_task_created_sucess(task_list):
     """ Test inserting a task operation success"""
     task_list.create_id = MagicMock(return_value=0)
     task_list.create_task("test", "testing")
-    assert task_list.get_tasks() == {0:{"completed":False,"description":"testing","title":"test"}}
+    assert task_list.get_tasks() == {0:{"completed":False,"description":"testing","title":"test","deadline":None}}
     
 def test_unique_id_created_with_new_task(task_list):
     """ test the tasks creation of a Id """
@@ -27,12 +28,14 @@ def test_complete_task_succesfully(task_list):
         0:{
             "completed":False,
             "description":"testing",
-            "title":"test1"
+            "title":"test1",
+            "deadline":None
         },
         1:{
            "completed":True,
             "description":"testing",
-            "title":"test2" 
+            "title":"test2",
+            "deadline":None
         }
     }
     
@@ -50,12 +53,14 @@ def test_get_completed_tasks(task_list):
         1:{
            "completed":True,
             "description":"testing",
-            "title":"test2" 
+            "title":"test2",
+            "deadline":None
         },
         2:{
            "completed":True,
             "description":"testing",
-            "title":"test3" 
+            "title":"test3",
+            "deadline":None
         }
     }
     
@@ -73,7 +78,8 @@ def test_get_uncompleted_tasks(task_list):
         0:{
             "completed":False,
             "description":"testing",
-            "title":"test1"
+            "title":"test1",
+            "deadline":None
         }
     }
 
@@ -151,3 +157,55 @@ def test_editing_fails_when_title_is_empty(task_list):
 
             task_list.create_task(old_title, "testing")
             task_list.edit_task(0, title=new_title)
+
+def test_task_without_deadline_has_no_urgency(task_list):
+    task_list.create_id = MagicMock(return_value=0)
+
+    task_list.create_task("test1", "testing")
+
+    assert task_list.deadline_status(0) == "No time urgency"
+
+def test_task_with_deadline_a_week_away_has_low_urgency(task_list):
+    task_list.create_id = MagicMock(return_value=0)
+    delta = datetime.timedelta(days=8)
+    deadline = datetime.datetime.today() + delta
+
+    task_list.create_task("test1", "testing", deadline)
+
+    assert task_list.deadline_status(0) == "Low time urgency"
+
+def test_task_with_deadline_three_days_away_has_medium_urgency(task_list):
+    task_list.create_id = MagicMock(return_value=0)
+    delta = datetime.timedelta(days=4)
+    deadline = datetime.datetime.today() + delta
+
+    task_list.create_task("test1", "testing", deadline)
+
+    assert task_list.deadline_status(0) == "Medium time urgency"
+
+def test_task_with_deadline_a_day_away_has_high_urgency(task_list):
+    task_list.create_id = MagicMock(return_value=0)
+    delta = datetime.timedelta(days=2)
+    deadline = datetime.datetime.today() + delta
+
+    task_list.create_task("test1", "testing", deadline)
+
+    assert task_list.deadline_status(0) == "High time urgency"
+
+def test_task_with_deadline_for_today_has_extreme_urgency(task_list):
+    task_list.create_id = MagicMock(return_value=0)
+    delta = datetime.timedelta(hours=12)
+    deadline = datetime.datetime.today() + delta
+
+    task_list.create_task("test1", "testing", deadline)
+
+    assert task_list.deadline_status(0) == "Extreme time urgency"
+
+def test_task_past_deadline_is_delayed(task_list):
+    task_list.create_id = MagicMock(return_value=0)
+    delta = datetime.timedelta(hours=-12)
+    deadline = datetime.datetime.today() + delta
+
+    task_list.create_task("test1", "testing", deadline)
+
+    assert task_list.deadline_status(0) == "Delayed"

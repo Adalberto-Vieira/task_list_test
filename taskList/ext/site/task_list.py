@@ -1,10 +1,18 @@
 import uuid
+import datetime
 
 class EmptyTitleException(Exception):
     pass
 
 class UnknownIdException(Exception):
     pass
+
+settings:list[tuple[datetime.timedelta, str]] = [
+    (datetime.timedelta(days=7), "Low time urgency"),
+    (datetime.timedelta(days=3), "Medium time urgency"),
+    (datetime.timedelta(hours=24), "High time urgency"),
+    (datetime.timedelta(), "Extreme time urgency")
+]
 
 
 class TaskList:
@@ -14,7 +22,7 @@ class TaskList:
         self.task_list = {}
 
 
-    def create_task(self, title: str, description: str):
+    def create_task(self, title: str, description: str, deadline=None):
         """ adds a new task to the task list """
         #TODO add a more robust treatment for missing title
         if not title:
@@ -23,7 +31,8 @@ class TaskList:
             self.task_list[self.create_id()] = {
                 'title': title,
                 'description': description,
-                'completed': False,  
+                'completed': False,
+                'deadline': deadline
             }
     
     def create_id(self):
@@ -78,3 +87,18 @@ class TaskList:
             if v["completed"]:
                 array[k] = v
         return array
+    
+    def has_deadline(self, id):
+        return self.task_list[id]["deadline"] is not None
+    
+    def deadline_status(self, id):
+        task = self.get_task_by_id(id)
+        if not self.has_deadline(id):
+            return "No time urgency"
+        now = datetime.datetime.today()
+        ret = None
+        for k, v in settings:
+            ret = v
+            if task["deadline"] - now >= k:
+                return v
+        return "Delayed"
