@@ -168,10 +168,28 @@ def test_raise_exception_move_to_bin_id_not_found(task_list):
         task_list.create_id = MagicMock(return_value=0)
         task_list.create_task("test1", "testing")
         task_list.move_bin(1)
+    pass
+        
+def test_move_to_list_from_bin_fail_empty_bin(task_list):
+    with pytest.raises(EmptyListException) as e_info:
+        task_list.move_list(1)
+    pass
+
+def test_move_to_list_from_bin_id_not_found(task_list):
+    with pytest.raises(UnknownIdException) as e_info:
+        task_list.create_id = MagicMock(return_value=0)
+        task_list.create_task("test1", "testing")
+        task_list.move_list(1)
+    pass
+
+def test_move_to_list_from_bin_success(task_list):
+    pass
 
 def test_delete_task_success(task_list):
     pass
 
-def test_raise_excepction_delete_task_empty(task_list):
+def test_raise_excepction_delete_task_empty_bin(task_list):
     pass
 
+def test_raise_excepction_delete_task_id_not_found(task_list):
+    pass
