@@ -62,7 +62,19 @@ class TaskList:
         return self.task_list
     
     def get_uncompleted_tasks(self):
-        return {k: v for k,v in self.task_list.items() if not v["completed"]}
+        array = {}
+        for item in self.task_list.items():
+            k = item[0]
+            v = item[1]
+            if not v["completed"]:
+                array[k] = v
+        return array
     
     def get_completed_task(self):
-        return {k: v for k,v in self.task_list.items() if v["completed"]}
+        array = {}
+        for item in self.task_list.items():
+            k = item[0]
+            v = item[1]
+            if v["completed"]:
+                array[k] = v
+        return array
