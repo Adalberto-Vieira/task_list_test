@@ -102,7 +102,7 @@ class TaskList:
         for k, v in settings:
             ret = v
             if task["deadline"] - now >= k:
-                return v
+                return ret
         return "Delayed"
 
     def delete_task(self,id):
