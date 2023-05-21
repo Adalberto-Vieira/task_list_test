@@ -82,8 +82,10 @@ class TaskList:
                 raise UnknownIdException   
             self.task_bin[id] = self.task_list[id]
             self.task_list.pop(id)
-        except:
-            print("Failed move to bin")
+        except UnknownIdException:
+            raise UnknownIdException
+        except EmptyListException:
+            raise EmptyListException
         
     def get_bin(self):
         return self.task_bin
