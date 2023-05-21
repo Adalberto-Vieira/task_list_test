@@ -29,10 +29,9 @@ class TaskList:
     def create_id(self):
         return str(uuid.uuid4())
     
-    def edit_task(self, id, title=None, description=None,
-                    completed=None):
+    def edit_task(self, id, title:str=None, description:str=None,
+                    completed:bool=None) -> None:
         """ Alters task data """
-        #TODO add treatment for exceptions
         try:
             if title is not None:
                 if title == "":
@@ -41,8 +40,10 @@ class TaskList:
             if description is not None:
                 self.task_list[id]['description'] = description
             if completed is not None:
+                # Probably shouldn't exist since self.complete_task exists
+                # to make a completed tasks uncompleted again?
                 self.task_list[id]['completed'] = completed
-        except:
+        except KeyError:
             print(self.task_list)
             raise UnknownIdException()
 
