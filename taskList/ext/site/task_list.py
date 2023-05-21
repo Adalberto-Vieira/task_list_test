@@ -6,12 +6,16 @@ class EmptyTitleException(Exception):
 class UnknownIdException(Exception):
     pass
 
+class EmptyListException(Exception):
+    pass
+
 
 class TaskList:
     """ Classs that represents the interactions with a class"""
     def __init__(self):
         super().__init__()
         self.task_list = {}
+        self.task_bin = {}
 
 
     def create_task(self, title: str, description: str):
@@ -66,3 +70,22 @@ class TaskList:
     
     def get_completed_task(self):
         return {k: v for k,v in self.task_list.items() if v["completed"]}
+
+    def delete_task(self,id):
+        pass
+
+    def move_bin(self,id):
+        try:
+            if len(self.task_list) == 0:
+                raise EmptyListException
+            if id not in self.task_list.keys():
+                raise UnknownIdException   
+            self.task_bin[id] = self.task_list[id]
+            self.task_list.pop(id)
+        except UnknownIdException:
+            raise UnknownIdException
+        except EmptyListException:
+            raise EmptyListException
+        
+    def get_bin(self):
+        return self.task_bin

@@ -48,6 +48,9 @@
                                 <input type="hidden" id="id" name="id" value="{{task}}"><br>
                                 <input type="submit" value="Edit"></input>
                             </form>
+                            <form action="{{ url_for('site.move_bin',id=task)}}" id="form" class="form" method='POST'>
+                                <button type="submit"> Move to bin </button>
+                            </form>
                         </li>
                     {% endfor %}
 
@@ -81,6 +84,23 @@
                     
                     </ul>
                 </div>
+
+                <h2> Bin </h2>
+                <div class="p-2 bd-highlight">
+                    <ul class="list-group">
+                    {% for task in bin %}
+                        <li class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{bin[task]["title"]}}</h5>
+                            </div>
+                            <p>{{task}}</p>
+                            <p class="mb-1">{{bin[task]["description"]}}</p>
+                        </li>
+                    {% endfor %}
+
+                    </ul>
+                </div>
+
             </div>
         </div>
 
