@@ -26,21 +26,22 @@
                     </div>
                     {% endif %}
                 </div>
+                <h2> Uncompleted tasks </h2>
                 <div class="p-2 bd-highlight">
                     <ul class="list-group">
-                    {% for task in tasks %}
+                    {% for task in uncompleted_tasks %}
                         <li class="list-group-item list-group-item-action flex-column align-items-start">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">{{tasks[task]["title"]}}</h5>
+                                <h5 class="mb-1">{{uncompleted_tasks[task]["title"]}}</h5>
                             </div>
                             <p>{{task}}</p>
-                            <p class="mb-1">{{tasks[task]["description"]}}</p>
-                            <form action="{{ url_for('site.edit_task') }}" id="form-{{tasks}}"class="form" method='POST'>
+                            <p class="mb-1">{{uncompleted_tasks[task]["description"]}}</p>
+                            <form action="{{ url_for('site.edit_task') }}" id="form-{{task}}"class="form" method='POST'>
                                 <label for="title">Title:</label>
-                                <input type="text" id="title" value="{{tasks[task]['title']}}" name="title" required><br>
+                                <input type="text" id="title" value="{{uncompleted_tasks[task]['title']}}" name="title" required><br>
                                 <label for="description">Description:</label>
-                                <input type="text" id="description" name="description" value="{{tasks[task]['description']}}"><br>
-                                <select name="status" form="form-{{tasks}}">
+                                <input type="text" id="description" name="description" value="{{uncompleted_tasks[task]['description']}}"><br>
+                                <select name="status" form="form-{{task}}">
                                     <option value="0" default>In progress</option>
                                     <option value="1">Completed</option>
                                 </select>
@@ -49,9 +50,37 @@
                             </form>
                         </li>
                     {% endfor %}
+
                     </ul>
                 </div>
-
+                <br>
+                <h2> Completed tasks </h2>
+                <div class="p-2 bd-highlight">
+                    <ul class="list-group">
+                    {% for task in completed_task %}
+                        <li class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{completed_task[task]["title"]}}</h5>
+                            </div>
+                            <p>{{task}}</p>
+                            <p class="mb-1">{{completed_task[task]["description"]}}</p>
+                            <form action="{{ url_for('site.edit_task') }}" id="form-{{task}}"class="form" method='POST'>
+                                <label for="title">Title:</label>
+                                <input type="text" id="title" readonly value="{{completed_task[task]['title']}}" name="title" required><br>
+                                <label for="description">Description:</label>
+                                <input type="text" readonly id="description" name="description" value="{{completed_task[task]['description']}}"><br>
+                                <select name="status" form="form-{{task}}">
+                                    <option value="1" default>Completed</option>
+                                    <option value="0" >In progress</option>
+                                </select>
+                                <input type="hidden" id="id" name="id" value="{{task}}"><br>
+                                <input type="submit" value="Edit"></input>
+                            </form>
+                        </li>
+                    {% endfor %}
+                    
+                    </ul>
+                </div>
             </div>
         </div>
 

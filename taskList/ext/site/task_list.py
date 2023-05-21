@@ -46,24 +46,23 @@ class TaskList:
         except KeyError:
             print(self.task_list)
             raise UnknownIdException()
-
-    def complete_task(self, id):
-        pass
-
+            
     def get_task_by_id(self, id):
         """ Return task by id """
         try:
             return self.task_list[id]
         except KeyError:
-            raise UnknownIdException()
+            raise UnknownIdException()def get_task_by_id(self, id):
+
+    def complete_task(self, id):
+        self.task_list[id]['completed'] = True
     
     def get_tasks(self):
         """ Return all the tasks """
         return self.task_list
     
     def get_uncompleted_tasks(self):
-        
-        return self.task_list
+        return {k: v for k,v in self.task_list.items() if not v["completed"]}
     
     def get_completed_task(self):
-        return self.completed_task_list
+        return {k: v for k,v in self.task_list.items() if v["completed"]}
