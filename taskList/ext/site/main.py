@@ -11,7 +11,8 @@ task_list = TaskList()
 def index():
     """ Renders the initial URL """
     return render_template("index.html", 
-                            tasks=task_list.get_tasks(),
+                            uncompleted_tasks=task_list.get_uncompleted_tasks(),
+                            completed_task=task_list.get_completed_task(),
                             warning=False)
 
 #TODO fix readirect behavior
@@ -24,7 +25,8 @@ def creat_task():
     except:
         warning = True
     return render_template("index.html", 
-                            tasks=task_list.get_tasks(),
+                            uncompleted_tasks=task_list.get_uncompleted_tasks(),
+                            completed_task=task_list.get_completed_task(),
                             warning=warning)
 
 @bp.route("/get_tasks")
@@ -45,5 +47,6 @@ def edit_task():
                         request.form.get("description"),
                         bool(int(request.form.get("status"))))
     return render_template("index.html", 
-                        tasks=task_list.get_tasks(),
+                        uncompleted_tasks=task_list.get_uncompleted_tasks(),
+                        completed_task=task_list.get_completed_task(),
                         warning=False)

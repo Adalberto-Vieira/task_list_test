@@ -36,15 +36,14 @@ class TaskList:
             raise
 
     def complete_task(self, id):
-        pass
+        self.task_list[id]['completed'] = True
     
     def get_tasks(self):
         """ Return all the tasks """
         return self.task_list
     
     def get_uncompleted_tasks(self):
-        
-        return self.task_list
+        return {k: v for k,v in self.task_list.items() if not v["completed"]}
     
     def get_completed_task(self):
-        return self.completed_task_list
+        return {k: v for k,v in self.task_list.items() if v["completed"]}
