@@ -106,7 +106,17 @@ class TaskList:
         return "Delayed"
 
     def delete_task(self,id):
-        pass
+        try:
+            if len(self.task_bin) == 0:
+                raise EmptyListException
+            if id not in self.task_bin.keys():
+                raise UnknownIdException   
+            self.task_bin.pop(id)
+        except UnknownIdException:
+            raise UnknownIdException
+        except EmptyListException:
+            raise EmptyListException
+        
 
     def move_bin(self,id):
         try:
@@ -123,3 +133,16 @@ class TaskList:
         
     def get_bin(self):
         return self.task_bin
+    
+    def move_from_bin(self, id):
+        try:
+            if len(self.task_bin) == 0:
+                raise EmptyListException
+            if id not in self.task_bin.keys():
+                raise UnknownIdException   
+            self.task_list[id] = self.task_bin[id]
+            self.task_bin.pop(id)
+        except UnknownIdException:
+            raise UnknownIdException
+        except EmptyListException:
+            raise EmptyListException

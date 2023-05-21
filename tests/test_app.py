@@ -8,3 +8,15 @@ def test_request_returns_404(client):
 def test_request_returns_200(client):
     """ Test if canonical URLs leads to 200"""
     assert client.get("/").status_code == 200
+    
+def test_index(app, client):
+    response = client.get('/')
+    assert response.status_code == 200
+
+def test_create_task(app, client):
+    response = client.post('/create_task', data={'title': 'Task 1', 'description': 'Description 1'})
+    assert response.status_code == 200
+
+def test_get_tasks(app, client):
+    response = client.get('/get_tasks')
+    assert response.status_code == 200
