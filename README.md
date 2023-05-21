@@ -1,23 +1,40 @@
-# taskList app
+# Trabalho Prático 1 - Teste de Software
 
-## How to run
+## Integrantes
 
-build the docker container and use your browser to see the aplication at local host 5000
+- Adalberto Barbosa Vieira - https://github.com/Adalberto-Vieira
+- Vivianne Basílio Barbosa - https://github.com/viviannebasilio
+- Wilgnert de Alcântara Rodrigues Batista - https://github.com/wilgnert
 
-commands:
+## Task List APP
 
-```console 
-docker build -t flask:latest .
-docker run -p 5000:5000 flask 
-```
+TaskList é um sistema de gerenciador de tarefas, uma aplicação web em que o usuário pode criar, visualizar, editar e deletas tarefas, em que cada tarefa possui seu título, sua descrição e seu status de conclusão.
 
-## How to run for dev
+## Tecnologias utilizadas
+- Python: Linguagem de programação utilizada para a criação do sistema;
+- Flask: Framework web utilizado para construir a aplicação web;
+- HTML: Utilizado para a estrutura e o estilo das páginas web;
+- pytest: Biblioteca utilizada para escrever os testes do sistema;
+- Docker: Plataforma de contêineres utilizada para facilitar a implantação e execução do sistema.
 
-install requiriments.txt and requirements-dev.txt
-Set env var for debugging 
-Execute flask run inside task list
+## Como rodar o Sistema
 
-## How to run tests
+1. Certifique-se de ter o Docker instalado em sua máquina;
+2. Construa a imagem do Docker com o seguinte comando:<br/>
+    <em>'docker build -t flask:latest'<em/>
+3. Execute o contâiner do Docker com o comando: <br/>
+    <em>'docker run -p 5000:5000 flask'<em/>
+4. Acesse a aplicação em seu navegador: http://localhost:5000.
 
-install requiriments.txt and requirements-dev.txt
-run pytest tests/ inside root folder
+## Como rodar para dev
+
+1. Installe requirements-dev.txt e requirements.txt através do comando:<br/>
+    <em>'pip install -r requirements.txt -r requirements-dev.txt'<em/>
+2. Configure a variável de ambiente para ativar o modo de depuração do Flask;
+3. Execute <em>'flask run'<em/> dentro de task list.
+
+## Como rodar testes
+
+1. Installe requirements-dev.txt e requirements.txt através do comando:<br/>
+    <em>'pip install -r requirements.txt -r requirements-dev.txt'<em/>
+2- Rode <em>'run pytest tests/'<em/> dentro da pasta raiz.
