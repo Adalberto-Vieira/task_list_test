@@ -52,7 +52,7 @@ class TaskList:
         try:
             return self.task_list[id]
         except KeyError:
-            raise UnknownIdException()def get_task_by_id(self, id):
+            raise UnknownIdException()
 
     def complete_task(self, id):
         self.task_list[id]['completed'] = True
