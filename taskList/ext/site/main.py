@@ -63,3 +63,23 @@ def move_bin(id):
                             completed_task=task_list.get_completed_task(),
                             bin=task_list.get_bin(),
                             warning=False)
+
+@bp.route("/move_from_bin/<id>", methods = ['POST'])
+def move_from_bin(id):
+    """ Renders the initial URL """
+    task_list.move_from_bin(id)
+    return render_template("index.html", 
+                            uncompleted_tasks=task_list.get_uncompleted_tasks(),
+                            completed_task=task_list.get_completed_task(),
+                            bin=task_list.get_bin(),
+                            warning=False)
+
+@bp.route("/set_date_time/<id>", methods = ['POST'])
+def set_date_time(id):
+    """ Renders the initial URL """
+    task_list.move_from_bin(id)
+    return render_template("index.html", 
+                            uncompleted_tasks=task_list.get_uncompleted_tasks(),
+                            completed_task=task_list.get_completed_task(),
+                            bin=task_list.get_bin(),
+                            warning=False)
