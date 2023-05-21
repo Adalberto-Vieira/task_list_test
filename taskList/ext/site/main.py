@@ -14,13 +14,6 @@ def index():
                             tasks=TaskList.get_tasks(),
                             warning=False)
 
-@bp.route("/create_list")
-def index():
-    """ Renders the initial URL """
-    return render_template("index.html", 
-                            tasks=TaskList.get_tasks(),
-                            warning=False)
-
 #TODO fix readirect behavior
 @bp.route("/create_task", methods = ['POST'])
 def creat_task():
