@@ -5,8 +5,7 @@ class TaskList:
     """ Classs that represents the interactions with a class"""
     def __init__(self):
         super().__init__()
-        self.task_list = []
-        self.completed_task_list = []
+        self.task_list = {}
 
 
     def creat_task(self, title: str, description: str):
@@ -15,26 +14,37 @@ class TaskList:
         if not title:
             raise Exception("Missing title for task")
         else:
-            self.task_list.append({
+            self.task_list[self.create_id()] = {
                 'title': title,
                 'description': description,
-                'completed': False,
-                'id': self.create_id()
-            })
+                'completed': False,  
+            }
     
     def create_id(self):
-        return uuid.uuid4()
+        return str(uuid.uuid4())
     
-    def edit_task(self, id: int, title="New task", description="New task",
+    def edit_task(self, id, title="New task", description="New task",
                     completed=False):
         """ Alters task data """
         #TODO add treatment for exceptions
-        self.task_list[id]['title'] = title
-        self.task_list[id]['description'] = description
-        self.task_list[id]['completed'] = completed
-        self.task_list[id]['id'] = id
+        try:
+            self.task_list[id]['title'] = title
+            self.task_list[id]['description'] = description
+            self.task_list[id]['completed'] = completed
+        except:
+            print(self.task_list)
+            raise
 
+    def complete_task(self, id):
+        pass
     
     def get_tasks(self):
         """ Return all the tasks """
-        return self.task_list + self.completed_task_list
+        return self.task_list
+    
+    def get_uncompleted_tasks(self):
+        
+        return self.task_list
+    
+    def get_completed_task(self):
+        return self.completed_task_list

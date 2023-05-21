@@ -40,7 +40,7 @@ def get_tasks():
 def edit_task():
     """ Editites the task """
     #TODO treat for exceptions
-    task_list.edit_task(int(request.form.get("id")),
+    task_list.edit_task(request.form.get("id"),
                         request.form.get("title"),
                         request.form.get("description"),
                         bool(int(request.form.get("status"))))
