@@ -1,4 +1,5 @@
 import uuid
+import datetime
 
 class EmptyTitleException(Exception):
     pass
@@ -9,7 +10,6 @@ class UnknownIdException(Exception):
 class EmptyListException(Exception):
     pass
 
-
 class TaskList:
     """ Classs that represents the interactions with a class"""
     def __init__(self):
@@ -18,7 +18,7 @@ class TaskList:
         self.task_bin = {}
 
 
-    def create_task(self, title: str, description: str):
+    def create_task(self, title: str, description: str, deadline=None):
         """ adds a new task to the task list """
         #TODO add a more robust treatment for missing title
         if not title:
@@ -27,7 +27,8 @@ class TaskList:
             self.task_list[self.create_id()] = {
                 'title': title,
                 'description': description,
-                'completed': False,  
+                'completed': False,
+                'deadline': deadline
             }
     
     def create_id(self):
@@ -66,10 +67,43 @@ class TaskList:
         return self.task_list
     
     def get_uncompleted_tasks(self):
-        return {k: v for k,v in self.task_list.items() if not v["completed"]}
+        array = {}
+        for item in self.task_list.items():
+            k = item[0]
+            v = item[1]
+            if not v["completed"]:
+                array[k] = v
+        return array
     
     def get_completed_task(self):
-        return {k: v for k,v in self.task_list.items() if v["completed"]}
+        array = {}
+        for item in self.task_list.items():
+            k = item[0]
+            v = item[1]
+            if v["completed"]:
+                array[k] = v
+        return array
+    
+    def has_deadline(self, id):
+        return self.task_list[id]["deadline"] is not None
+    
+    def deadline_status(self, id):
+        task = self.get_task_by_id(id)
+        if not self.has_deadline(id):
+            return "No time urgency"
+        settings:list[tuple[datetime.timedelta, str]] = [
+            (datetime.timedelta(days=7), "Low time urgency"),
+            (datetime.timedelta(days=3), "Medium time urgency"),
+            (datetime.timedelta(hours=24), "High time urgency"),
+            (datetime.timedelta(), "Extreme time urgency")
+        ]
+        now = datetime.datetime.today()
+        ret = None
+        for k, v in settings:
+            ret = v
+            if task["deadline"] - now >= k:
+                return ret
+        return "Delayed"
 
     def delete_task(self,id):
         pass
