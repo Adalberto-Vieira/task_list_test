@@ -13,6 +13,7 @@ def index():
     return render_template("index.html", 
                             uncompleted_tasks=task_list.get_uncompleted_tasks(),
                             completed_task=task_list.get_completed_task(),
+                            bin=task_list.get_bin(),
                             warning=False)
 
 #TODO fix readirect behavior
@@ -21,12 +22,13 @@ def creat_task():
     """ Creates a new task in the list """
     warning = False
     try:
-        task_list.creat_task(request.form.get('title'), request.form.get('description'))
+        task_list.create_task(request.form.get('title'), request.form.get('description'))
     except:
         warning = True
     return render_template("index.html", 
                             uncompleted_tasks=task_list.get_uncompleted_tasks(),
                             completed_task=task_list.get_completed_task(),
+                            bin=task_list.get_bin(),
                             warning=warning)
 
 @bp.route("/get_tasks")
@@ -49,4 +51,15 @@ def edit_task():
     return render_template("index.html", 
                         uncompleted_tasks=task_list.get_uncompleted_tasks(),
                         completed_task=task_list.get_completed_task(),
+                        bin=task_list.get_bin(),
                         warning=False)
+
+@bp.route("/move_bin/<id>", methods = ['POST'])
+def move_bin(id):
+    """ Renders the initial URL """
+    task_list.move_bin(id)
+    return render_template("index.html", 
+                            uncompleted_tasks=task_list.get_uncompleted_tasks(),
+                            completed_task=task_list.get_completed_task(),
+                            bin=task_list.get_bin(),
+                            warning=False)

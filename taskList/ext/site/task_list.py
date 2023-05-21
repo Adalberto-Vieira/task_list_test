@@ -7,19 +7,15 @@ class EmptyTitleException(Exception):
 class UnknownIdException(Exception):
     pass
 
-settings:list[tuple[datetime.timedelta, str]] = [
-    (datetime.timedelta(days=7), "Low time urgency"),
-    (datetime.timedelta(days=3), "Medium time urgency"),
-    (datetime.timedelta(hours=24), "High time urgency"),
-    (datetime.timedelta(), "Extreme time urgency")
-]
-
+class EmptyListException(Exception):
+    pass
 
 class TaskList:
     """ Classs that represents the interactions with a class"""
     def __init__(self):
         super().__init__()
         self.task_list = {}
+        self.task_bin = {}
 
 
     def create_task(self, title: str, description: str, deadline=None):
@@ -95,6 +91,12 @@ class TaskList:
         task = self.get_task_by_id(id)
         if not self.has_deadline(id):
             return "No time urgency"
+        settings:list[tuple[datetime.timedelta, str]] = [
+            (datetime.timedelta(days=7), "Low time urgency"),
+            (datetime.timedelta(days=3), "Medium time urgency"),
+            (datetime.timedelta(hours=24), "High time urgency"),
+            (datetime.timedelta(), "Extreme time urgency")
+        ]
         now = datetime.datetime.today()
         ret = None
         for k, v in settings:
@@ -102,3 +104,22 @@ class TaskList:
             if task["deadline"] - now >= k:
                 return v
         return "Delayed"
+
+    def delete_task(self,id):
+        pass
+
+    def move_bin(self,id):
+        try:
+            if len(self.task_list) == 0:
+                raise EmptyListException
+            if id not in self.task_list.keys():
+                raise UnknownIdException   
+            self.task_bin[id] = self.task_list[id]
+            self.task_list.pop(id)
+        except UnknownIdException:
+            raise UnknownIdException
+        except EmptyListException:
+            raise EmptyListException
+        
+    def get_bin(self):
+        return self.task_bin
