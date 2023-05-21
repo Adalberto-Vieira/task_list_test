@@ -19,4 +19,4 @@ def app():
 @pytest.fixture(scope="function")
 def task_list():
     """ Returns a task list """
-    return TaskList 
+    return TaskList()

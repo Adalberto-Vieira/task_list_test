@@ -5,13 +5,13 @@ import distutils
 
 bp = Blueprint("site", __name__)
 
-
+task_list = TaskList()
 
 @bp.route("/")
 def index():
     """ Renders the initial URL """
     return render_template("index.html", 
-                            tasks=TaskList.get_tasks(),
+                            tasks=task_list.get_tasks(),
                             warning=False)
 
 #TODO fix readirect behavior
@@ -20,17 +20,17 @@ def creat_task():
     """ Creates a new task in the list """
     warning = False
     try:
-        TaskList.creat_task(request.form.get('title'), request.form.get('description'))
+        task_list.creat_task(request.form.get('title'), request.form.get('description'))
     except:
         warning = True
     return render_template("index.html", 
-                            tasks=TaskList.get_tasks(),
+                            tasks=task_list.get_tasks(),
                             warning=warning)
 
 @bp.route("/get_tasks")
 def get_tasks():
     """ Returns the list of tasks """
-    tasks = TaskList.get_tasks()
+    tasks = task_list.get_tasks()
     if tasks: 
         return make_response(jsonify(tasks), 200)
     else:
@@ -40,10 +40,10 @@ def get_tasks():
 def edit_task():
     """ Editites the task """
     #TODO treat for exceptions
-    TaskList.edit_task(int(request.form.get("id")),
+    task_list.edit_task(int(request.form.get("id")),
                         request.form.get("title"),
                         request.form.get("description"),
                         bool(int(request.form.get("status"))))
     return render_template("index.html", 
-                        tasks=TaskList.get_tasks(),
+                        tasks=task_list.get_tasks(),
                         warning=False)
