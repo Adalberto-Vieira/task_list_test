@@ -43,3 +43,15 @@ def test_task_should_not_update_title_when_title_is_not_edited(task_list):
     task = task_list.get_task_by_id(id=0)
 
     assert task["title"] == title
+
+def test_task_should_update_description_when_description_is_edited(task_list):
+    old_description:str = "test1"
+    new_description:str = "new" + old_description
+    task_list.create_id = MagicMock(return_value=0)
+
+    task_list.create_task("test1", old_description)
+    task_list.edit_task(0, description=new_description)
+
+    task = task_list.get_task_by_id(id=0)
+
+    assert task["description"] == new_description
