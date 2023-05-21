@@ -1,7 +1,7 @@
 from unittest import mock
 from unittest.mock import MagicMock
 import pytest
-from taskList.ext.site.task_list import EmptyTitleException
+from taskList.ext.site.task_list import *
 
 def test_task_created_sucess(task_list):
     """ Test inserting a task operation success"""
@@ -151,3 +151,27 @@ def test_editing_fails_when_title_is_empty(task_list):
 
             task_list.create_task(old_title, "testing")
             task_list.edit_task(0, title=new_title)
+
+def test_success_move_task_bin(task_list):
+    task_list.create_id = MagicMock(return_value=0)
+    task_list.create_task("test1", "testing")
+    task_list.move_bin(0)
+    assert task_list.get_tasks() == {}
+    assert task_list.get_bin() == {0:{"completed":False,"description":"testing","title":"test1"}} 
+
+def test_raise_exception_move_empty_to_bin(task_list):
+    with pytest.raises(EmptyListException) as e_info:
+        task_list.move_bin(0)
+
+def test_raise_exception_move_to_bin_id_not_found(task_list):
+    with pytest.raises(UnknownIdException) as e_info:
+        task_list.create_id = MagicMock(return_value=0)
+        task_list.create_task("test1", "testing")
+        task_list.move_bin(1)
+
+def test_delete_task_success(task_list):
+    pass
+
+def test_raise_excepction_delete_task_empty(task_list):
+    pass
+
