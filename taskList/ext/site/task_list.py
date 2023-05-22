@@ -24,12 +24,14 @@ class TaskList:
         if not title:
             raise EmptyTitleException("Missing title for task")
         else:
-            self.task_list[self.create_id()] = {
+            task_id = self.create_id()
+            self.task_list[task_id] = {
                 'title': title,
                 'description': description,
                 'completed': False,
                 'deadline': deadline
             }
+            return task_id
     
     def create_id(self):
         return str(uuid.uuid4())
@@ -85,6 +87,10 @@ class TaskList:
         return array
     
     def has_deadline(self, id):
+        if len(self.task_list) == 0:
+            raise EmptyListException
+        if id not in self.task_list.keys():
+            raise UnknownIdException   
         return self.task_list[id]["deadline"] is not None
     
     def deadline_status(self, id):
