@@ -6,3 +6,4 @@ pytest-flask
 setuptools
 flask-shell-ipython
 coverage==7.2.5
+pytest-cov==4.0.0
