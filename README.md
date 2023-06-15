@@ -1,5 +1,7 @@
 # Trabalho Prático 1 - Teste de Software
 
+[![codecov](https://codecov.io/gh/Adalberto-Vieira/task_list_test/branch/main/graph/badge.svg?token=HQ6L5VX3Z4)](https://codecov.io/gh/Adalberto-Vieira/task_list_test)
+
 ## Integrantes
 
 - Adalberto Barbosa Vieira - https://github.com/Adalberto-Vieira
