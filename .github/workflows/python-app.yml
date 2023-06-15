@@ -28,14 +28,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
-    - name: Test with pytest
-      run: |
-        pytest
-    - name: Generate Report
-      run: |
-        pip install coverage
-        coverage run -m unittest
-    - name: Codecov
-      uses: codecov/codecov-action@v3.1.4
-
+    - name: Run tests and collect coverage
+      run: pytest --cov
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
     
