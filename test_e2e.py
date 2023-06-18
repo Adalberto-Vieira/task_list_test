@@ -3,11 +3,22 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chromium.options import ChromiumOptions
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 
 class SystemTestCase(unittest.TestCase):
+    def setUpAll(self):        
+        self.options = ChromiumOptions()
+        self.options.add_argument("--no-sandbox")
+        self.options.add_argument("--disable-dev-shm-usage")
+        self.options.add_argument("--headless")
+        self.service = ChromeService(ChromeDriverManager().install())
+
     def setUp(self):
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome(service=self.service, options=self.options)
 
     def tearDown(self):
         self.driver.quit()

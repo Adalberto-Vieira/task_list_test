@@ -7,4 +7,5 @@ setuptools
 flask-shell-ipython
 coverage==7.2.5
 pytest-cov==4.0.0
-selenium
+selenium>=4
+webdriver-manager
