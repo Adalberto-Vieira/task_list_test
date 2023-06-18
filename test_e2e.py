@@ -10,15 +10,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 
 class SystemTestCase(unittest.TestCase):
-    def setUpAll(self):        
-        self.options = ChromiumOptions()
-        self.options.add_argument("--no-sandbox")
-        self.options.add_argument("--disable-dev-shm-usage")
-        self.options.add_argument("--headless")
-        self.service = ChromeService(ChromeDriverManager().install())
-
     def setUp(self):
-        self.driver = webdriver.Chrome(service=self.service, options=self.options)
+        options = ChromiumOptions()
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--headless")
+        service = ChromeService(ChromeDriverManager().install())
+        self.driver = webdriver.Chrome(service=service, options=options)
 
     def tearDown(self):
         self.driver.quit()
