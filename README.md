@@ -39,4 +39,5 @@ TaskList é um sistema de gerenciador de tarefas, uma aplicação web em que o u
 
 1. Installe requirements-dev.txt e requirements.txt através do comando:<br/>
     <em>'pip install -r requirements.txt -r requirements-dev.txt'<em/>
-2- Rode <em>'run pytest tests/'<em/> dentro da pasta raiz.
+2. - Rode <em>'run pytest tests/'<em/> dentro da pasta raiz para os testes de unidade.
+    - Rode <em>'system_test/test_e2e.py'<em/> dentro da pasta raiz para os testes de sistema.
