@@ -7,8 +7,6 @@ from selenium.webdriver.chromium.options import ChromiumOptions
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
-
-
 class SystemTestCase(unittest.TestCase):
     def setUp(self):
         options = ChromiumOptions()
@@ -21,9 +19,7 @@ class SystemTestCase(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def test_create_task(self):
-        self.driver.get('http://127.0.0.1:5000/')
-        time.sleep(2)
+    def add_task_to_list(self):
         title_input = self.driver.find_element('css selector', 'input[name="title"]')
         description_input = self.driver.find_element('css selector', 'input[name="description"]')
         submit_button = self.driver.find_element('css selector', 'input[type="submit"]')
@@ -33,9 +29,15 @@ class SystemTestCase(unittest.TestCase):
         submit_button.click()
         
         time.sleep(2)
+
+    def test_create_task(self):
+        self.driver.get('http://127.0.0.1:5000/')
+        time.sleep(2)
+
+        self.add_task_to_list()
+        
         task_element = self.driver.find_element('css selector', '.list-group-item')
         self.assertTrue(task_element.is_displayed(), 'A nova tarefa não está visível na lista.')
-
 
     def test_edit_task(self):
         self.driver.get('http://127.0.0.1:5000/')
@@ -80,7 +82,6 @@ class SystemTestCase(unittest.TestCase):
         self.assertEqual(edited_task_title, edited_title, 'O título da tarefa não foi editado corretamente.')
         self.assertEqual(edited_task_description, edited_description, 'A descrição da tarefa não foi editada corretamente.')
 
-
     def test_move_to_bin(self):
         # Abrir a página inicial do aplicativo
         self.driver.get('http://127.0.0.1:5000/')
@@ -100,7 +101,6 @@ class SystemTestCase(unittest.TestCase):
         list_elements = self.driver.find_elements('css selector', '.list-group-item')
         list_ids = [element.get_attribute('id') for element in list_elements]
         self.assertNotIn(task_id, list_ids, 'A tarefa não foi removida da lista principal.')
-
 
     def test_move_from_bin(self):
         # Abrir a página inicial do aplicativo
@@ -124,9 +124,6 @@ class SystemTestCase(unittest.TestCase):
         #move de volta pra lixeira
         bin_button = self.driver.find_element('xpath', "//button[contains(text(), 'Move to bin')]")
         bin_button.click()
-
-
-
 
     def test_delete(self):
         # Abrir a página inicial do aplicativo

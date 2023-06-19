@@ -28,11 +28,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
-    - uses: browser-actions/setup-chrome@latest
-    - run: chrome --version
     - name: Run tests and collect coverage
       run: |
-        pytest --cov taskList
+        pytest tests --cov
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
     
